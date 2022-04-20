@@ -1,1 +1,1 @@
-# snake project with canvas and webpack.
+# snake game project with canvas and webpack.
