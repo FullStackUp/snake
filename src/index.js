@@ -11,7 +11,7 @@ const snake = [
   [8, 9],
   [7, 9],
 ];
-const apple = [5, 5];
+let apple = [5, 5];
 
 const drawMap = () => {
   ctx.fillStyle = "black";
@@ -71,6 +71,19 @@ const gameover = () => {
   return false;
 };
 
+const generateApple = () => {
+  const [x, y] = [
+    Math.trunc(Math.random() * 19),
+    Math.trunc(Math.random() * 19),
+  ];
+  for (let body of snake) {
+    if (body[0] === x && body[1] === y) {
+      return generateApple();
+    }
+  }
+  apple = [x, y];
+};
+
 const updateSnakePosition = () => {
   let head;
   switch (direction) {
@@ -92,7 +105,11 @@ const updateSnakePosition = () => {
     }
   }
   snake.unshift(head);
-  snake.pop();
+  if (head[0] === apple[0] && head[1] === apple[1]) {
+    generateApple();
+  } else {
+    snake.pop();
+  }
   return gameover();
 };
 
