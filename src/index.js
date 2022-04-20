@@ -3,7 +3,7 @@ import "./style.css";
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-const speed = 500;
+let speed = 50;
 let direction = "n";
 const gridElem = 40; //20 * 20
 const snake = [
@@ -12,6 +12,7 @@ const snake = [
   [7, 9],
 ];
 let apple = [5, 5];
+let score = 0;
 
 const drawMap = () => {
   ctx.fillStyle = "black";
@@ -72,6 +73,7 @@ const gameover = () => {
 };
 
 const generateApple = () => {
+  score++;
   const [x, y] = [
     Math.trunc(Math.random() * 19),
     Math.trunc(Math.random() * 19),
@@ -113,16 +115,25 @@ const updateSnakePosition = () => {
   return gameover();
 };
 
+const drawScore = () => {
+  ctx.fillStyle = "white";
+  ctx.font = "40px sans-serif";
+  ctx.textBaseline = "top";
+  ctx.fillText(score, gridElem, gridElem);
+};
+
 const move = () => {
   if (!updateSnakePosition()) {
+    speed = score * 50;
     drawMap();
     drawSnake();
     drawApple();
+    drawScore();
     setTimeout(() => {
       requestAnimationFrame(move);
     }, 1000 - speed);
   } else {
-    alert("Game Over !");
+    console.log("Game Over ! " + "Your score is :", score);
   }
 };
 
